@@ -94,11 +94,10 @@ const AddressForm = (props) => {
             zip: formValue.zip,
             id:''
         }
-        console.log(object)
         addressBookService.addAddressBookData(object).then(data => {
-            console.log("data added");
+            console.log("data added successfully");
         }).catch(err => {
-            console.log("err while add", err);
+            console.log("error occured while adding", err);
         })
     }
 
