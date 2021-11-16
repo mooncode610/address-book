@@ -1,8 +1,106 @@
+import React, { useState,useEffect } from "react";
+import { Link, useParams } from 'react-router-dom';
 import cross from '../../assets/cross.png';
 import logo from '../../assets/icon.png';
 import './AddressForm.scss';
 
 const AddressForm = (props) => {
+
+    let initialValue = {
+        name: '',
+        phoneNumber: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        id: '',
+        isUpdate: false,
+        error: {
+            name: '',
+            phoneNumber: '',
+            address: '',
+            city: '',
+            state: '',
+            zip: ''
+        }
+
+    }
+
+    const [formValue, setForm] = useState(initialValue);
+
+    const changeValue = (event) => {
+        setForm({ ...formValue, [event.target.name]: event.target.value })
+    }
+    const [displayMessage, setDisplayMessage] = useState("");
+    const {id} = useParams();
+
+    const validData = async () => {
+        let isError = false;
+        let error = {
+            name: '',
+            phoneNumber: '',
+            address: '',
+            city: '',
+            state: '',
+            zipCode: ''
+
+        }
+        if (!formValue.name.match('^[A-Z]{1}[a-zA-Z]{2,}')) {
+            error.name = 'Name error'
+            isError = true;
+        }
+        if (!formValue.phoneNumber.match('^[+]?([0-9]{2})?[789]{1}[0-9]{9}$')) {
+            error.phoneNumber = 'Phone number error'
+            isError = true;
+        }
+        if (!formValue.address.match('^[a-zA-Z0-9]{3,}([\\s]?[a-zA-Z0-9]{3,})*')) {
+            error.address = 'Address error'
+            isError = true;
+        }
+        if (!formValue.zip.match('^[0-9]{3}[\\s]?[0-9]{3}$')) {
+            error.zip = 'zip error'
+            isError = true;
+        }
+
+        if (formValue.city.length < 1) {
+            error.city = 'city is required'
+            isError = true;
+        }
+        if (formValue.state.length < 1) {
+            error.state = 'state is required'
+            isError = true;
+        }
+
+        await setForm({ ...formValue, error: error })
+        return isError;
+    }
+
+    const save = async (event) => {
+        event.preventDefault();
+        console.log("save");
+
+        if (await validData()) {
+            console.log('error', formValue);
+            return;
+        }
+        let object = {
+            name: formValue.name,
+            phoneNumber: formValue.phoneNumber,
+            address: formValue.address,
+            city: formValue.city,
+            state: formValue.state,
+            zip: formValue.zip,
+            id:''
+        }
+        console.log(object)
+        addressbook.addAddressBook(object).then(data => {
+            console.log("data added");
+        }).catch(err => {
+            console.log("err while add", err);
+        })
+        navigate('/home')
+    }
+
 
     return(
     <div className="address-main">
