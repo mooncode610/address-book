@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useParams} from 'react-router-dom';
 import cross from '../../assets/cross.png';
 import logo from '../../assets/icon.png';
 import './AddressForm.scss';
 import AddressBookService from "../../services/AddressBookService";
-var addressBookService = new AddressBookService();
+
 
 const AddressForm = (props) => {
 
@@ -27,9 +27,32 @@ const AddressForm = (props) => {
         }
 
     }
-
+    const addressBookService = new AddressBookService();
     const [formValue, setForm] = useState(initialValue);
+    const [displayMeassage, setDisplayMessage] = useState("");
+    const params = useParams();
+    useEffect(() => {
+        if (params.id) {
+            getDataById(params.id);
+        }
+    },[]);
 
+    const getDataById = (id) => {
+        addressBookService.getContact(id).then((data) => {
+            console.log("Data is    ", data.data);
+            let object = data.data;
+            setData(object);
+        }).catch((error) => {
+            console.log("Error is ", error);
+        });
+    };
+
+    const setData = (object) => {
+        console.log(object);
+        setForm({
+            ...formValue, ...object, isUpdate: true,
+        });
+    };
     const changeValue = (event) => {
         setForm({ ...formValue, [event.target.name]: event.target.value })
     }
@@ -42,7 +65,7 @@ const AddressForm = (props) => {
             address: '',
             city: '',
             state: '',
-            zipCode: ''
+            zip: ''
 
         }
         if (!formValue.name.match('^[A-Z]{1}[a-zA-Z]{2,}')) {
@@ -77,28 +100,59 @@ const AddressForm = (props) => {
 
     const save = async (event) => {
         event.preventDefault();
-        console.log("save");
-
         if (await validData()) {
             console.log('error', formValue);
             return;
         }
+
         let object = {
             name: formValue.name,
             phoneNumber: formValue.phoneNumber,
-            address: formValue.address,
             city: formValue.city,
             state: formValue.state,
+            address: formValue.address,
+            id: '',
             zip: formValue.zip,
-            id:''
         }
-        addressBookService.addAddressBookData(object).then(data => {
-            console.log("data added successfully");
-        }).catch(err => {
-            console.log("error occured while adding", err);
-        })
-    }
 
+        if (formValue.isUpdate) {
+            addressBookService.updateContact(object, params.id).then((data) => {
+                setDisplayMessage("Contact Updated Successfully");
+                console.log("Data after update", data);
+                reset();
+                setTimeout(() => {
+                    setDisplayMessage("");
+                    props.history.push("");
+                }, 3000);
+            }).catch((error) => {
+                setDisplayMessage("Error while updating contact");
+                console.log("Error while updating", error);
+                setTimeout(() => {
+                    setDisplayMessage("");
+                }, 3000);
+            });
+        } else {
+            addressBookService.addContact(object).then((data) => {
+                setDisplayMessage("Contact Added Successfully");
+                console.log("Data added");
+                reset();
+                setTimeout(() => {
+                    setDisplayMessage("");
+                    props.history.push("");
+                }, 1000);
+            }).catch((error) => {
+                setDisplayMessage("Error while adding contact");
+                console.log("Error while adding employee");
+                setTimeout(() => {
+                    setDisplayMessage("");
+                }, 1000);
+            });
+        }
+    }
+    const reset = () => {
+        setForm({ ...initialValue, id: formValue.id, isUpdate: formValue.isUpdate });
+        console.log(formValue);
+    }
 
     return(
     <div className="address-main">
@@ -112,25 +166,25 @@ const AddressForm = (props) => {
         </div>
       </header>
       <div className="form-content">
-                <form className="form" action="#">
+                <form className="form" action="#" onSubmit={save}>
                     <div className="form-head">
                         <h1 className="form-head-title">Person Address Form</h1>
                         <Link to="/home" class="cross"><img src={cross}alt="cross" /></Link>
                     </div>
                     <div className="row-content">
                         <label className="label text" htmlFor="name">Full Name</label>
-                        <input className="input" type="text" id="name" name="name" onChange={changeValue} autocomplete="disable" required />
+                        <input className="input" type="text" id="name" name="name" value={formValue.name} onChange={changeValue} autoComplete="disable" required />
                         <div className="error" id="name-error">{formValue.error.name}</div>
                     </div>
                     <div className="row-content">
                         <label className="label text" htmlFor="phoneNumber">Phone Number</label>
-                        <input className="input" type="tel" id="phoneNumber" name="phoneNumber" onChange={changeValue} autocomplete="disable" required />
+                        <input className="input" type="tel" id="phoneNumber" name="phoneNumber" value={formValue.phoneNumber}onChange={changeValue} autoComplete="disable" required />
                         <div className="error" id="phoneNumber-error">{formValue.error.phoneNumber}</div>
                     </div>
                     <div className="row-content">
                         <div className="text-row">
                             <label className="label text" htmlFor="address">Address</label>
-                            <textarea id="address" className="input" name="address" onChange={changeValue} placeholder="" style={{ height: "100px" }} autocomplete="disable"></textarea>
+                            <textarea id="address" className="input" name="address" value={formValue.address} onChange={changeValue} placeholder="" style={{ height: "100px" }} autoComplete="disable"></textarea>
                             <div className="error" id="address-error">{formValue.error.address}</div>
 
 
@@ -139,7 +193,7 @@ const AddressForm = (props) => {
                     <div className="row-content location-row">
                         <div>
                             <label className="label text" htmlFor="city">City</label>
-                            <select id="city" onChange={changeValue} name="city">
+                            <select id="city" onChange={changeValue} name={formValue.city} value="city">
                                 <option value="" disabled selected hidden>Select City</option>
                                 <option value="Bangalore">Bangalore</option>
                                 <option value="Hyderabad">Hyderabad</option>
@@ -150,7 +204,7 @@ const AddressForm = (props) => {
                         </div>
                         <div className="state-row">
                             <label className="label text" htmlFor="state">State</label>
-                            <select id="state" onChange={changeValue} name="state">
+                            <select id="state" onChange={changeValue} name="state" value={formValue.state}>
                                 <option value="" disabled selected hidden>Select State</option>
                                 <option value="Karnataka">Karnataka</option>
                                 <option value="Telangana">Telangana</option>
@@ -160,20 +214,18 @@ const AddressForm = (props) => {
                         </div>
                         <div>
                             <label className="label text" htmlFor="zip">Zipcode</label>
-                            <input className="input" type="text" id="zip" name="zip" onChange={changeValue} required autocomplete="disable" />
+                            <input className="input" type="text" id="zip" name="zip" value={formValue.zip}onChange={changeValue} required autoComplete="disable" />
                             <div className="error" id="zip-error">{formValue.error.zip}</div>
 
 
                         </div>
                     </div>
                     <div className="buttonParent">
-                        <div className="submit-reset">
-                            <button type="submit" class="button submitButton" id="submitButton" onClick={save}>
-                                Add
-                            </button>
-                            <button type="reset" class="resetButton button" id="resetButton" onclick="reset()"
-                            >Reset</button>
-                        </div>
+                        <button type="submit" className="button submitButton" id="addButton" >{formValue.isUpdate ? 'Submit' : 'Submit'}</button>
+                        <button type="reset" onClick={reset} className="button resetButton">Reset</button>
+                    </div>
+                    <div className="displaymessage">
+                        {displayMeassage}
                     </div>
                 </form>
       </div>

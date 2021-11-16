@@ -12,6 +12,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/home/AddressForm" element={<AddressForm />} />
           <Route path="/AddressForm" element={<AddressForm />} />
+          <Route exact path="/update/:id" element={<AddressForm />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

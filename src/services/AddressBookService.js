@@ -9,4 +9,10 @@ export default class AddressBookService{
     getAllContacts() {
         return AxiosService.getService(`${this.baseUrl}AddressBookDB`);
     }
+    getContact(id) {
+        return AxiosService.getService(`${this.baseUrl}AddressBookDB/${id}`);
+    }
+    updateContact(data, id) {
+        return AxiosService.putService(`${this.baseUrl}AddressBookDB/${id}`, data);
+    }
 }
