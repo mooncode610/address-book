@@ -1,6 +1,12 @@
 import './display.scss'
 import { Link } from 'react-router-dom'
+import deleteIcon from '../../assets/icons/delete-icon.svg';
+import editIcon from '../../assets/icons/edit-icon.svg';
+
 const Display = (props) => {
+    const remove=(id) => {
+
+    }
     return (
         <table id="display" className="table">
         <tbody>

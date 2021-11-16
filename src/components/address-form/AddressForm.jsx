@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from "react";
-import { Link, useParams } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import cross from '../../assets/cross.png';
 import logo from '../../assets/icon.png';
 import './AddressForm.scss';
@@ -33,8 +33,6 @@ const AddressForm = (props) => {
     const changeValue = (event) => {
         setForm({ ...formValue, [event.target.name]: event.target.value })
     }
-    const [displayMessage, setDisplayMessage] = useState("");
-    const {id} = useParams();
 
     const validData = async () => {
         let isError = false;
@@ -117,7 +115,7 @@ const AddressForm = (props) => {
                 <form className="form" action="#">
                     <div className="form-head">
                         <h1 className="form-head-title">Person Address Form</h1>
-                        <Link to="/home" class="cross"><img src={cross} /></Link>
+                        <Link to="/home" class="cross"><img src={cross}alt="cross" /></Link>
                     </div>
                     <div className="row-content">
                         <label className="label text" htmlFor="name">Full Name</label>

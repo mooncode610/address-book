@@ -1,13 +1,5 @@
 {
   "AddressBookDB": [
-    {
-      "name": "Zoya Sanjeev",
-      "phoneNumber": "9900990099",
-      "address": "abc road",
-      "city": "Mumbai",
-      "state": "Maharastra",
-      "zip": "400100",
-      "id": 6
-    }
+    
   ]
 }

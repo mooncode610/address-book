@@ -1,5 +1,6 @@
 import './App.css';
 import AddressForm from './components/address-form/AddressForm';
+import Home from './components/home/Home';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -7,7 +8,10 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AddressForm />} />
+        <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/home/AddressForm" element={<AddressForm />} />
+          <Route path="/AddressForm" element={<AddressForm />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.png';
-import addIcon from '../../assets/add-24px.svg';
+import logo from '../../assets/icon.png';
+import addIcon from '../../assets/icons/add-24px.svg';
 import './home.scss';
 import AddressBookService from "../../services/AddressBookService";
 import Display from '../display/Display';
@@ -47,7 +47,7 @@ class Home extends React.Component {
                         <div className="contact-detail-text">
                             Person Details
                         </div>
-                        <Link to="/add" className="add-button flex-row-center"><img src={addIcon} alt="" />Add Person</Link>
+                        <Link to="/AddressForm" className="add-button flex-row-center"><img src={addIcon} alt="" />Add Person</Link>
                     </div>
                     <div className="table-main">
                         <Display contactArray={this.state.contactArray} />
