@@ -118,7 +118,7 @@ const AddressForm = (props) => {
                 <form className="form" action="#">
                     <div className="form-head">
                         <h1 className="form-head-title">Person Address Form</h1>
-                        <Link to="/home" class="close-button"><img src="../assets/cross.png" /></Link>
+                        <Link to="/home" class="cross"><img src={cross} /></Link>
                     </div>
                     <div className="row-content">
                         <label className="label text" htmlFor="name">Full Name</label>
