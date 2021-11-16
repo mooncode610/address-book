@@ -1,4 +1,4 @@
-import './home.scss'
+import './display.scss'
 import { Link } from 'react-router-dom'
 const Display = (props) => {
     return (

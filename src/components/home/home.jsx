@@ -1,4 +1,35 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.png';
+import addIcon from '../../assets/add-24px.svg';
+import './home.scss';
+import AddressBookService from "../../services/AddressBookService";
+import Display from '../display/Display';
+
 class Home extends React.Component {
+
+    constructor() {
+        super()
+        this.state = {
+            contactArray: []
+
+        }
+    }
+
+    componentDidMount() {
+        this.getAllContacts();
+      }
+
+    addressBookService = new AddressBookService();
+
+    getAllContacts = () => {
+        this.addressBookService.getAllContacts().then(data => {
+            this.setState({ contactArray: data.data })
+            console.log("Data after get ", data.data);
+        }).catch(error => {
+            console.log("Error after ", error);
+        })
+    }
     render() {
         return (
             <div className="main">
