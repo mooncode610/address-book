@@ -6,4 +6,7 @@ export default class AddressBookService{
     addAddressBookData(data){
         return AxiosService.postService(`${this.baseUrl}AddressBookDB`, data);
     }
+    getAllContacts() {
+        return AxiosService.getService(`${this.baseUrl}AddressBookDB`);
+    }
 }
