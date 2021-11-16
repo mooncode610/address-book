@@ -1,5 +1,22 @@
 {
   "AddressBookDB": [
-    
+    {
+      "name": "Draco Malfoy",
+      "phoneNumber": "9090998888",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "address": "Malfoy Manor",
+      "id": 2,
+      "zip": "500100"
+    },
+    {
+      "name": "Harry Potter",
+      "phoneNumber": "9988998877",
+      "city": "Pune",
+      "state": "Maharastra",
+      "address": "Hogwarts",
+      "id": 3,
+      "zip": "411000"
+    }
   ]
 }

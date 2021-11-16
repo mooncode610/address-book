@@ -122,23 +122,23 @@ const AddressForm = (props) => {
                 reset();
                 setTimeout(() => {
                     setDisplayMessage("");
-                    props.history.push("");
-                }, 3000);
+                    window.location.replace("/");
+                }, 1000);
             }).catch((error) => {
                 setDisplayMessage("Error while updating contact");
                 console.log("Error while updating", error);
                 setTimeout(() => {
                     setDisplayMessage("");
-                }, 3000);
+                }, 1000);
             });
         } else {
-            addressBookService.addContact(object).then((data) => {
+            addressBookService.addAddressBookData(object).then((data) => {
                 setDisplayMessage("Contact Added Successfully");
                 console.log("Data added");
                 reset();
                 setTimeout(() => {
                     setDisplayMessage("");
-                    props.history.push("");
+                    window.location.replace("/");
                 }, 1000);
             }).catch((error) => {
                 setDisplayMessage("Error while adding contact");
@@ -193,7 +193,7 @@ const AddressForm = (props) => {
                     <div className="row-content location-row">
                         <div>
                             <label className="label text" htmlFor="city">City</label>
-                            <select id="city" onChange={changeValue} name={formValue.city} value="city">
+                            <select id="city" onChange={changeValue} name="city"value={formValue.city} >
                                 <option value="" disabled selected hidden>Select City</option>
                                 <option value="Bangalore">Bangalore</option>
                                 <option value="Hyderabad">Hyderabad</option>

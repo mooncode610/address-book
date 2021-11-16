@@ -2,10 +2,18 @@ import './display.scss'
 import { Link } from 'react-router-dom'
 import deleteIcon from '../../assets/icons/delete-icon.svg';
 import editIcon from '../../assets/icons/edit-icon.svg';
+import AddressBookService from '../../services/AddressBookService';
 
 const Display = (props) => {
-    const remove=(id) => {
-
+    const addressBookService = new AddressBookService();
+    
+    const remove = (id) => {
+        addressBookService.deleteContact(id).then(data => {
+            console.log("Deleted data: ", data);
+        }).catch(error => {
+            console.log("Error after ", error);
+        })
+        window.location.reload("/");
     }
     return (
         <table id="display" className="table">
