@@ -1,13 +1,14 @@
-import React, { useState,useEffect } from "react";
-import { Link, useParams } from 'react-router-dom';
+import cross from '../../assets/cross.png';
+import logo from '../../assets/icon.png';
+import './AddressForm.scss';
 
 const AddressForm = (props) => {
 
     return(
     <div className="address-main">
     <header class="header-content header">
-        <div class="logo-content">
-          <img src="../assets/icon.png" alt="" />
+        <div className="logo-content">
+          <img src={logo } alt="" />
           <div>
             <span class="address-text">ADDRESS</span><br />
             <span class="address-text book-text">BOOK</span>
@@ -19,7 +20,7 @@ const AddressForm = (props) => {
             <div class="form-head">
                 <h1 class="form-head-title">Person Address Form</h1>
                 <a href="../pages/Home.html" class="cross">
-                <img src="../assets/cross.png" class="cross" />
+                <img src={cross} class="cross" alt="cross"/>
                     </a>
             </div>
             <div class="row-content">
@@ -35,7 +36,7 @@ const AddressForm = (props) => {
               <div class="row-content">
                 <div class="text-row">
                   <label class="label text" for="address">Address</label>
-                  <textarea id="address" class="input" name="Address" placeholder="" style="height: 100px" required></textarea>
+                  <textarea id="address" class="input" name="Address" placeholder="" required></textarea>
                   <error-output id="address-error" class="address-error" for="address"></error-output>
                 </div>
               </div>
@@ -77,4 +78,4 @@ const AddressForm = (props) => {
     );
 }
 
-export default AddressBook;
+export default AddressForm;
