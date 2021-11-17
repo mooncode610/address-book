@@ -39,8 +39,8 @@ const AddressForm = (props) => {
 
     const getDataById = (id) => {
         addressBookService.getContact(id).then((data) => {
-            console.log("Data is    ", data.data);
-            let object = data.data;
+            console.log("Data is   ", data.data.data);
+            let object = data.data.data;
             setData(object);
         }).catch((error) => {
             console.log("Error is ", error);
@@ -68,29 +68,33 @@ const AddressForm = (props) => {
             zip: ''
 
         }
-        if (!formValue.name.match('^[A-Z]{1}[a-zA-Z]{2,}')) {
-            error.name = 'Name error'
+        const regName = /^[A-Z]{1}[A-Za-z]{2,}([\s]?([a-zA-Z]+))*$/
+        if (formValue.name.length < 1 || !regName.test(formValue.name)) {
+            error.name = 'Name Invalid'
             isError = true;
         }
-        if (!formValue.phoneNumber.match('^[+]?([0-9]{2})?[789]{1}[0-9]{9}$')) {
-            error.phoneNumber = 'Phone number error'
+        const regPhoneNumber = /^[+]?([0-9]{2})?[789]{1}[0-9]{9}$/
+        if (formValue.phoneNumber.length < 1 || !regPhoneNumber.test(formValue.phoneNumber)) {
+            error.phoneNumber = 'Phone Number Invalid'
             isError = true;
         }
-        if (!formValue.address.match('^[a-zA-Z0-9]{3,}([\\s]?[a-zA-Z0-9]{3,})*')) {
-            error.address = 'Address error'
+        const regAddress = /^[a-zA-Z0-9]{3,}([\s]?[a-zA-Z0-9]{3,})*$/
+        if (formValue.address.length < 1 || !regAddress.test(formValue.address)) {
+            error.address = 'Address incorrect'
             isError = true;
         }
-        if (!formValue.zip.match('^[0-9]{3}[\\s]?[0-9]{3}$')) {
-            error.zip = 'zip error'
+        const regZip = /^[0-9]{3}[\s]?[0-9]{3}$/
+        if (formValue.zip.length < 1 || !regZip.test(formValue.zip)) {
+            error.zip = 'Zip incorrect'
             isError = true;
         }
 
         if (formValue.city.length < 1) {
-            error.city = 'city is required'
+            error.city = 'City is required'
             isError = true;
         }
         if (formValue.state.length < 1) {
-            error.state = 'state is required'
+            error.state = 'State is required'
             isError = true;
         }
 
